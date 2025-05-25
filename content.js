@@ -8,32 +8,10 @@
     const styleElement = document.createElement('style');
     document.head.appendChild(styleElement);
 
-    // Check if the site uses spans inside .bbcode_url elements
-    function detectSpanUsage() {
-        const bbcodeUrls = document.querySelectorAll('.bbcode_url');
-        if (bbcodeUrls.length === 0) return false;
-
-        // Check a sample of links to see if they use spans for text
-        let spansFound = 0;
-
-        for (let i = 0; i < Math.min(10, bbcodeUrls.length); i++) {
-            if (bbcodeUrls[i].querySelector('span')) {
-                spansFound++;
-            }
-        }
-
-        // If more than half of the sampled links have spans, assume spans are used
-        return spansFound > Math.min(5, bbcodeUrls.length / 2);
-    }
-
     // Apply settings
     function applySettings() {
-        const usesSpans = detectSpanUsage();
-        console.log("Site uses spans in .bbcode_url:", usesSpans);
-
         if (removeUnderlines) {
-            if (usesSpans) {
-                styleElement.textContent = `
+            styleElement.textContent = `
                     .bbcode_url {
                         text-decoration: none !important;
                     }
@@ -41,18 +19,13 @@
                         text-decoration: none !important;
                     }
                 `;
-            } else {
-                styleElement.textContent = `
+        } else if (hoverUnderlines) {
+            styleElement.textContent = `
                     .bbcode_url {
                         text-decoration: none !important;
                     }
-                `;
-            }
-        } else if (hoverUnderlines) {
-            if (usesSpans) {
-                styleElement.textContent = `
-                    .bbcode_url {
-                        text-decoration: none !important;
+                    .bbcode_url:hover {
+                        text-decoration: underline !important;
                     }
                     .bbcode_url span {
                         text-decoration: none !important;
@@ -61,16 +34,6 @@
                         text-decoration: underline !important;
                     }
                 `;
-            } else {
-                styleElement.textContent = `
-                    .bbcode_url {
-                        text-decoration: none !important;
-                    }
-                    .bbcode_url:hover {
-                        text-decoration: underline !important;
-                    }
-                `;
-            }
         } else {
             // Reset to default (empty styles)
             styleElement.textContent = '';
@@ -86,32 +49,30 @@
                 if (removeUnderlines || hoverUnderlines) {
                     element.style.textDecoration = 'none';
 
-                    if (usesSpans) {
-                        const spans = element.querySelectorAll('span');
-                        spans.forEach(span => {
-                            span.style.textDecoration = 'none';
+                    const spans = element.querySelectorAll('span');
+                    spans.forEach(span => {
+                        span.style.textDecoration = 'none';
 
-                            // Add hover event listeners for spans if needed
-                            if (hoverUnderlines) {
-                                element.addEventListener('mouseenter', () => {
-                                    span.style.textDecoration = 'underline';
-                                });
+                        // Add hover event listeners for spans if needed
+                        if (hoverUnderlines) {
+                            element.addEventListener('mouseenter', () => {
+                                span.style.textDecoration = 'underline';
+                            });
 
-                                element.addEventListener('mouseleave', () => {
-                                    span.style.textDecoration = 'none';
-                                });
-                            }
-                        });
-                    } else if (hoverUnderlines) {
-                        // Add hover event listeners for the element itself
-                        element.addEventListener('mouseenter', () => {
-                            element.style.textDecoration = 'underline';
-                        });
+                            element.addEventListener('mouseleave', () => {
+                                span.style.textDecoration = 'none';
+                            });
+                        }
+                    });
 
-                        element.addEventListener('mouseleave', () => {
-                            element.style.textDecoration = 'none';
-                        });
-                    }
+                    // Add hover event listeners for the element itself
+                    element.addEventListener('mouseenter', () => {
+                        element.style.textDecoration = 'underline';
+                    });
+
+                    element.addEventListener('mouseleave', () => {
+                        element.style.textDecoration = 'none';
+                    });
                 } else {
                     // Reset to default
                     element.style.textDecoration = '';
