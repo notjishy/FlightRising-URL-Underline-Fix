@@ -7,6 +7,33 @@ body {
     margin: 0;
 }
 
+body.centered {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    width: 100vw;
+    box-sizing: border-box;
+}
+
+.gradient-border {
+    padding: 3px;
+    border-radius: 16px;
+    background: linear-gradient(0deg, #BFBFBF, #818181, #BFBFBF);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.popup-container {
+    background: #fff;
+    border-radius: 12px;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 8px;
+}
+
 h1 {
     font-size: 18px;
     margin-top: 0;

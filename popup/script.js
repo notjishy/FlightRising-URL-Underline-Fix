@@ -2,14 +2,19 @@ if (typeof browser === 'undefined') {
     browser = chrome
 }
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
+    if (window.innerWidth > 400 && window.top === window) {
+        document.body.classList.add('centered');
+    }
+
     // Get the toggle checkboxes and status texts
     const removeUnderlines = document.getElementById('removeUnderlines');
     const hoverUnderlines = document.getElementById('hoverUnderlines');
     const removeStatus = document.getElementById('removeStatus');
     const hoverStatus = document.getElementById('hoverStatus');
-    const colorSelect = document.getElementById('color-select')
-    const customColor = document.getElementById('custom-color')
+    const colorSelect = document.getElementById('color-select');
+    const customColor = document.getElementById('custom-color');
+    const openOptions = document.getElementById('open-options');
 
     // Function to update status text
     function updateStatus(element, enabled) {
@@ -19,7 +24,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Load saved settings
     const settings = ['removeUnderlines', 'hoverUnderlines', 'colorSetting', 'customColor'];
-    browser.storage.sync.get(settings, function(data) {
+    browser.storage.sync.get(settings, function (data) {
         // Default removeUnderlines to true if not set
         const removeEnabled = data.removeUnderlines !== false;
         removeUnderlines.checked = removeEnabled;
@@ -31,30 +36,33 @@ document.addEventListener('DOMContentLoaded', function() {
         updateStatus(hoverStatus, hoverEnabled);
 
         // Load color setting
-        colorSelect.value = data.colorSetting || 'default';
-        customColor.value = data.customColor || '#000000';
+        if (colorSelect && customColor) {
+            colorSelect.value = data.colorSetting || 'default';
+            customColor.value = data.customColor || '#000000';
 
-        customColor.style.display = colorSelect.value === 'custom' ? 'block' : 'none';
+            customColor.style.display = colorSelect.value === 'custom' ? 'block' : 'none';
+        }
     });
 
     // Save color selection when changed
-    colorSelect.addEventListener('change', function() {
-        browser.storage.sync.set({
-            'colorSetting': colorSelect.value
+    if (colorSelect && customColor) {
+        colorSelect.addEventListener('change', function () {
+            browser.storage.sync.set({
+                'colorSetting': colorSelect.value
+            });
+
+            customColor.style.display = colorSelect.value === 'custom' ? 'block' : 'none';
         });
 
-        customColor.style.display = colorSelect.value === 'custom' ? 'block' : 'none';
-    });
-
-    // Handle custom color changes
-    customColor.addEventListener('input', function() {
-        browser.storage.sync.set({
-            'customColor': customColor.value
+        customColor.addEventListener('input', function () {
+            browser.storage.sync.set({
+                'customColor': customColor.value
+            });
         });
-    });
+    }
 
     // Handle remove underlines toggle
-    removeUnderlines.addEventListener('change', function() {
+    removeUnderlines.addEventListener('change', function () {
         const enabled = removeUnderlines.checked;
         browser.storage.sync.set({
             'removeUnderlines': enabled
@@ -72,7 +80,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // Handle hover underlines toggle
-    hoverUnderlines.addEventListener('change', function() {
+    hoverUnderlines.addEventListener('change', function () {
         const enabled = hoverUnderlines.checked;
         browser.storage.sync.set({
             'hoverUnderlines': enabled
@@ -88,4 +96,15 @@ document.addEventListener('DOMContentLoaded', function() {
             updateStatus(removeStatus, false);
         }
     });
+
+    // Open more options page
+    if (openOptions) {
+        openOptions.addEventListener('click', function () {
+            if (browser.runtime.openOptionsPage) {
+                browser.runtime.openOptionsPage();
+            } else {
+                window.open(browser.runtime.getURL('../options/options/'))
+            }
+        });
+    }
 });

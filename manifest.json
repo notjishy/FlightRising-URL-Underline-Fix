@@ -13,6 +13,10 @@
             "run_at": "document_end"
         }
     ],
+    "options_ui": {
+        "page": "options/options.html",
+        "open_in_tab": true
+    },
     "permissions": ["activeTab", "storage"],
     "browser_specific_settings": {
         "gecko": {
