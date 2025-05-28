@@ -13,5 +13,10 @@
             "run_at": "document_end"
         }
     ],
-    "permissions": ["activeTab", "storage"]
+    "permissions": ["activeTab", "storage"],
+    "browser_specific_settings": {
+        "gecko": {
+            "id": "flightrising-url-fixer@jishe.wtf"
+        }
+    }
 }
