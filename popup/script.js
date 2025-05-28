@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Load saved settings
     const settings = ['removeUnderlines', 'hoverUnderlines', 'colorSetting', 'customColor'];
-    chrome.storage.sync.get(settings, function(data) {
+    browser.storage.sync.get(settings, function(data) {
         // Default removeUnderlines to true if not set
         const removeEnabled = data.removeUnderlines !== false;
         removeUnderlines.checked = removeEnabled;
@@ -39,7 +39,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Save color selection when changed
     colorSelect.addEventListener('change', function() {
-        chrome.storage.sync.set({
+        browser.storage.sync.set({
             'colorSetting': colorSelect.value
         });
 
@@ -48,7 +48,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Handle custom color changes
     customColor.addEventListener('input', function() {
-        chrome.storage.sync.set({
+        browser.storage.sync.set({
             'customColor': customColor.value
         });
     });
@@ -56,7 +56,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Handle remove underlines toggle
     removeUnderlines.addEventListener('change', function() {
         const enabled = removeUnderlines.checked;
-        chrome.storage.sync.set({
+        browser.storage.sync.set({
             'removeUnderlines': enabled
         });
         updateStatus(removeStatus, enabled);
@@ -64,7 +64,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // If turning on remove underlines, disable hover underlines
         if (enabled && hoverUnderlines.checked) {
             hoverUnderlines.checked = false;
-            chrome.storage.sync.set({
+            browser.storage.sync.set({
                 'hoverUnderlines': false
             });
             updateStatus(hoverStatus, false);
@@ -74,7 +74,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Handle hover underlines toggle
     hoverUnderlines.addEventListener('change', function() {
         const enabled = hoverUnderlines.checked;
-        chrome.storage.sync.set({
+        browser.storage.sync.set({
             'hoverUnderlines': enabled
         });
         updateStatus(hoverStatus, enabled);
@@ -82,7 +82,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // If turning on hover underlines, disable remove underlines
         if (enabled && removeUnderlines.checked) {
             removeUnderlines.checked = false;
-            chrome.storage.sync.set({
+            browser.storage.sync.set({
                 'removeUnderlines': false
             });
             updateStatus(removeStatus, false);

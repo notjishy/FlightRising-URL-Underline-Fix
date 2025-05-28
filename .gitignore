@@ -1,3 +1,7 @@
 # web-ext shit
 /web-ext-artifacts
 .amo-upload-uuid
+
+# editors and IDEs
+.idea
+.vscode

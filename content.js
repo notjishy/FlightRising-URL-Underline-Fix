@@ -66,7 +66,7 @@ if (typeof browser === 'undefined') {
 
     // Check settings on load
     const settings = ['removeUnderlines', 'hoverUnderlines', 'colorSetting', 'customColor'];
-    chrome.storage.sync.get(settings).then(function(data) {
+    browser.storage.sync.get(settings).then(function(data) {
         removeUnderlines = data.removeUnderlines !== false;
         hoverUnderlines = data.hoverUnderlines === true;
         colorSetting = data.colorSetting || 'default';
@@ -82,7 +82,7 @@ if (typeof browser === 'undefined') {
     });
 
     // Listen for setting changes
-    chrome.storage.onChanged.addListener(function(changes) {
+    browser.storage.onChanged.addListener(function(changes) {
         if (changes.removeUnderlines) {
             removeUnderlines = changes.removeUnderlines.newValue;
         }
