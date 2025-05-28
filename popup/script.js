@@ -1,3 +1,7 @@
+if (typeof browser === 'undefined') {
+    browser = chrome
+}
+
 document.addEventListener('DOMContentLoaded', function() {
     // Get the toggle checkboxes and status texts
     const removeUnderlines = document.getElementById('removeUnderlines');

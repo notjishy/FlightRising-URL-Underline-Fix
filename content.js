@@ -1,6 +1,11 @@
+if (typeof browser === 'undefined') {
+    browser = chrome
+}
+
 (function() {
     console.log("Flight Rising URL Fixer is running!");
 
+    let colorSetting
     let removeUnderlines = true; // Default settings
     let hoverUnderlines = false;
 
@@ -61,7 +66,7 @@
 
     // Check settings on load
     const settings = ['removeUnderlines', 'hoverUnderlines', 'colorSetting', 'customColor'];
-    chrome.storage.sync.get(settings, function(data) {
+    chrome.storage.sync.get(settings).then(function(data) {
         removeUnderlines = data.removeUnderlines !== false;
         hoverUnderlines = data.hoverUnderlines === true;
         colorSetting = data.colorSetting || 'default';
