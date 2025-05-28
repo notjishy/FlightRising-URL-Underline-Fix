@@ -3,10 +3,6 @@ if (typeof browser === 'undefined') {
 }
 
 document.addEventListener('DOMContentLoaded', function () {
-    if (window.innerWidth > 400 && window.top === window) {
-        document.body.classList.add('centered');
-    }
-
     // Get the toggle checkboxes and status texts
     const removeUnderlines = document.getElementById('removeUnderlines');
     const hoverUnderlines = document.getElementById('hoverUnderlines');
@@ -15,6 +11,13 @@ document.addEventListener('DOMContentLoaded', function () {
     const colorSelect = document.getElementById('color-select');
     const customColor = document.getElementById('custom-color');
     const openOptions = document.getElementById('open-options');
+    const optionContainer = document.getElementById('option-container');
+
+    if (window.innerWidth > 400 && window.top === window) {
+        document.body.classList.add('centered');
+        optionContainer.style.display = 'inline';
+        openOptions.style.display = 'none';
+    }
 
     // Function to update status text
     function updateStatus(element, enabled) {
@@ -36,30 +39,26 @@ document.addEventListener('DOMContentLoaded', function () {
         updateStatus(hoverStatus, hoverEnabled);
 
         // Load color setting
-        if (colorSelect && customColor) {
-            colorSelect.value = data.colorSetting || 'default';
-            customColor.value = data.customColor || '#000000';
+        colorSelect.value = data.colorSetting || 'default';
+        customColor.value = data.customColor || '#000000';
 
-            customColor.style.display = colorSelect.value === 'custom' ? 'block' : 'none';
-        }
+        customColor.style.display = colorSelect.value === 'custom' ? 'block' : 'none';
     });
 
     // Save color selection when changed
-    if (colorSelect && customColor) {
-        colorSelect.addEventListener('change', function () {
-            browser.storage.sync.set({
-                'colorSetting': colorSelect.value
-            });
-
-            customColor.style.display = colorSelect.value === 'custom' ? 'block' : 'none';
+    colorSelect.addEventListener('change', function () {
+        browser.storage.sync.set({
+            'colorSetting': colorSelect.value
         });
 
-        customColor.addEventListener('input', function () {
-            browser.storage.sync.set({
-                'customColor': customColor.value
-            });
+        customColor.style.display = colorSelect.value === 'custom' ? 'block' : 'none';
+    });
+
+    customColor.addEventListener('input', function () {
+        browser.storage.sync.set({
+            'customColor': customColor.value
         });
-    }
+    });
 
     // Handle remove underlines toggle
     removeUnderlines.addEventListener('change', function () {

@@ -14,7 +14,7 @@
         }
     ],
     "options_ui": {
-        "page": "options/options.html",
+        "page": "popup/index.html",
         "open_in_tab": true
     },
     "permissions": ["activeTab", "storage"],
