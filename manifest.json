@@ -1,7 +1,7 @@
 {
     "manifest_version": 3,
     "name": "Flight Rising URL Fixer",
-    "version": "1.0.2",
+    "version": "1.1.0",
     "description": "Adds options to fix the underlines on urls",
     "action": {
         "default_popup": "popup/index.html"
