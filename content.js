@@ -33,60 +33,7 @@
                     .bbcode_url:hover span {
                         text-decoration: underline !important;
                     }
-                `;
-        } else {
-            // Reset to default (empty styles)
-            styleElement.textContent = '';
-        }
-
-        // Apply inline styles to existing elements
-        const bbcodeUrls = document.querySelectorAll('.bbcode_url');
-
-        if (bbcodeUrls.length > 0) {
-            console.log(`Applying settings to ${bbcodeUrls.length} .bbcode_url elements`);
-
-            bbcodeUrls.forEach((element) => {
-                if (removeUnderlines || hoverUnderlines) {
-                    element.style.textDecoration = 'none';
-
-                    const spans = element.querySelectorAll('span');
-                    spans.forEach(span => {
-                        span.style.textDecoration = 'none';
-
-                        // Add hover event listeners for spans if needed
-                        if (hoverUnderlines) {
-                            element.addEventListener('mouseenter', () => {
-                                span.style.textDecoration = 'underline';
-                            });
-
-                            element.addEventListener('mouseleave', () => {
-                                span.style.textDecoration = 'none';
-                            });
-                        }
-                    });
-
-                    // Add hover event listeners for the element itself
-                    element.addEventListener('mouseenter', () => {
-                        element.style.textDecoration = 'underline';
-                    });
-
-                    element.addEventListener('mouseleave', () => {
-                        element.style.textDecoration = 'none';
-                    });
-                } else {
-                    // Reset to default
-                    element.style.textDecoration = '';
-
-                    if (usesSpans) {
-                        const spans = element.querySelectorAll('span');
-                        spans.forEach(span => {
-                            span.style.textDecoration = '';
-                        });
-                    }
-
-                    // Remove any event listeners (not directly possible, but will be overridden)
-                }
-            });
+            `;
         }
     }
 
