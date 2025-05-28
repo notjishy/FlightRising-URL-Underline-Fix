@@ -2,10 +2,11 @@ if (typeof browser === 'undefined') {
     browser = chrome
 }
 
-(function() {
+(function () {
     console.log("Flight Rising URL Fixer is running!");
 
     let colorSetting
+    let customColor
     let removeUnderlines = true; // Default settings
     let hoverUnderlines = false;
 
@@ -66,7 +67,7 @@ if (typeof browser === 'undefined') {
 
     // Check settings on load
     const settings = ['removeUnderlines', 'hoverUnderlines', 'colorSetting', 'customColor'];
-    browser.storage.sync.get(settings).then(function(data) {
+    browser.storage.sync.get(settings).then(function (data) {
         removeUnderlines = data.removeUnderlines !== false;
         hoverUnderlines = data.hoverUnderlines === true;
         colorSetting = data.colorSetting || 'default';
@@ -82,13 +83,21 @@ if (typeof browser === 'undefined') {
     });
 
     // Listen for setting changes
-    browser.storage.onChanged.addEventListener(function(changes) {
-        if (changes.removeUnderlines) {
+    browser.storage.onChanged.addListener(async (changes) => {
+        if (changes.removeUnderlines?.newValue !== undefined) {
             removeUnderlines = changes.removeUnderlines.newValue;
         }
 
-        if (changes.hoverUnderlines) {
+        if (changes.hoverUnderlines?.newValue !== undefined) {
             hoverUnderlines = changes.hoverUnderlines.newValue;
+        }
+
+        if (changes.colorSetting?.newValue !== undefined) {
+            colorSetting = changes.colorSetting.newValue;
+        }
+
+        if (changes.customColor?.newValue !== undefined) {
+            customColor = changes.customColor.newValue;
         }
 
         console.log("Settings changed - Remove:", removeUnderlines, "Hover:", hoverUnderlines);
@@ -96,7 +105,7 @@ if (typeof browser === 'undefined') {
     });
 
     // Watch for DOM changes
-    const observer = new MutationObserver(function() {
+    const observer = new MutationObserver(function () {
         applySettings();
     });
 
