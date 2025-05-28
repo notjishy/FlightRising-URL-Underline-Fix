@@ -4,6 +4,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const hoverUnderlines = document.getElementById('hoverUnderlines');
     const removeStatus = document.getElementById('removeStatus');
     const hoverStatus = document.getElementById('hoverStatus');
+    const colorSelect = document.getElementById('color-select')
+    const customColor = document.getElementById('custom-color')
 
     // Function to update status text
     function updateStatus(element, enabled) {
@@ -11,8 +13,14 @@ document.addEventListener('DOMContentLoaded', function() {
         element.style.color = enabled ? "#2e8b57" : "#d9534f";
     }
 
+    // Hide/Show color picker based on selection
+    function updateColorPickerVisibility() {
+        customColor.style.display = colorSelect.value === 'custom' ? 'block' : 'none';
+    }
+
     // Load saved settings
-    chrome.storage.sync.get(['removeUnderlines', 'hoverUnderlines'], function(data) {
+    const settings = ['removeUnderlines', 'hoverUnderlines', 'colorSetting', 'customColor'];
+    chrome.storage.sync.get(settings, function(data) {
         // Default removeUnderlines to true if not set
         const removeEnabled = data.removeUnderlines !== false;
         removeUnderlines.checked = removeEnabled;
@@ -22,6 +30,27 @@ document.addEventListener('DOMContentLoaded', function() {
         const hoverEnabled = data.hoverUnderlines === true;
         hoverUnderlines.checked = hoverEnabled;
         updateStatus(hoverStatus, hoverEnabled);
+
+        // Load color setting
+        colorSelect.value = data.colorSetting || 'default';
+        customColor.value = data.customColor || '#000000';
+        updateColorPickerVisibility();
+    });
+
+    // Save color selection when changed
+    colorSelect.addEventListener('change', function() {
+        chrome.storage.sync.set({
+            'colorSetting': colorSelect.value
+        });
+
+        customColor.style.display = colorSelect.value === 'custom' ? 'block' : 'none';
+    });
+
+    // Handle custom color changes
+    customColor.addEventListener('input', function() {
+        chrome.storage.sync.set({
+            'customColor': customColor.value
+        });
     });
 
     // Handle remove underlines toggle

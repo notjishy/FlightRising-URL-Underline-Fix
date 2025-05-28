@@ -10,8 +10,10 @@
 
     // Apply settings
     function applySettings() {
+        let css = '';
+
         if (removeUnderlines) {
-            styleElement.textContent = `
+            css += `
                     .bbcode_url {
                         text-decoration: none !important;
                     }
@@ -20,7 +22,7 @@
                     }
                 `;
         } else if (hoverUnderlines) {
-            styleElement.textContent = `
+            css += `
                     .bbcode_url {
                         text-decoration: none !important;
                     }
@@ -35,12 +37,35 @@
                     }
             `;
         }
+
+        // Apply color settings
+        switch (colorSetting) {
+            case 'old':
+                css += `
+                    .bbcode_url {
+                        color: #b0734f !important;
+                    }
+                `;
+                break;
+            case 'custom':
+                css += `
+                    .bbcode_url {
+                        color: ${customColor} !important;
+                    }
+                `;
+                break;
+        }
+
+        styleElement.textContent = css;
     }
 
     // Check settings on load
-    chrome.storage.sync.get(['removeUnderlines', 'hoverUnderlines'], function(data) {
+    const settings = ['removeUnderlines', 'hoverUnderlines', 'colorSetting', 'customColor'];
+    chrome.storage.sync.get(settings, function(data) {
         removeUnderlines = data.removeUnderlines !== false;
         hoverUnderlines = data.hoverUnderlines === true;
+        colorSetting = data.colorSetting || 'default';
+        customColor = data.customColor || '#000000';
 
         // Ensure only one setting is active
         if (removeUnderlines && hoverUnderlines) {
