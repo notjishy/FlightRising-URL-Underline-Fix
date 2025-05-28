@@ -82,7 +82,7 @@ if (typeof browser === 'undefined') {
     });
 
     // Listen for setting changes
-    browser.storage.onChanged.addListener(function(changes) {
+    browser.storage.onChanged.addEventListener(function(changes) {
         if (changes.removeUnderlines) {
             removeUnderlines = changes.removeUnderlines.newValue;
         }
