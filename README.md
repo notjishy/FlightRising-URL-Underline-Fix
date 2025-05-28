@@ -2,8 +2,6 @@
 
 Recently the Flight Rising web game has made changes the default URL text formatting which has created some issues for many users. This extension aims to solve these issues until a more permanent, built-in, fix is implemented by the Flight Rising devs. I do not play Flight Rising, however this issue was brought to my attention by a friend of mine who does play the game and I figured I'd quickly muster up this third-party fix. I plan on keeping this updated as changes occur.
 
-Currently, this is only available for Chromium based web browsers, however I plan on adding support for FireFox based browsers soon.
-
 I am open to any and all feedback regarding this extension. If there is anything that would be beneficial to be added or changed do not hesitate to let me know, whether it be through an "issue" here on this repository or by personally reaching out to me via the information on my profile!
 
 <hr>
@@ -15,10 +13,17 @@ Generally, you don't need this extension. If you wish to fix the text formatting
 ## How to install
 Installing this extension is generally pretty simple, however since it is not in the official Chrome Web Store it is a little more involved than normal, not by much though.
 
-1. Go the "Releases" section of this repository and download the latest `
-FlightRising-URL-Underline-Fix.crx ` file.
+#### Chrome-based Browsers:
+1. Go to the "Releases" section of this repository and download the latest `
+Chrome_FlightRising-URL-Fixer.crx ` file.
 2. Go to your browser's extensions settings and click the option in the top corner to enable "Developer Mode".
 3. Drag and drop the file you just downloaded in step 1 onto the extensions settings page. This should install the extension for you.
+
+#### Firefox-based Browsers:
+1. Go to the "Releases" section of this repository and download the latest `
+Firefox_FlightRising-URL-Fixer.xpi ` file.
+2. In your browser's Add-ons manager page, click the gear icon and select "Install Add-on From File..."
+3. Navigate to where you downloaded the file and select it.
 
 ## Features
 
@@ -31,3 +36,12 @@ This option will keep the default URL underline just like how the devs added it,
   2. The underline will match the color of the text.
 
 Any underlines added by the user when styling their URL will still be there even when not hovering. I figured this was the best option as people may want to preserve the formatting that the individual user's intended when styling their text.
+
+#### Custom Link Color
+This feature allows you to customize the default color of the URL text.
+- Default
+    Keeps the current default URL text color unchanged.
+- Old Default
+    Changes the default URL text color to what it was previously.
+- Custom
+    Changes the default URL text color to any color of your choosing.
