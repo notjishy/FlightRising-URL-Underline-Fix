@@ -13,11 +13,6 @@ document.addEventListener('DOMContentLoaded', function() {
         element.style.color = enabled ? "#2e8b57" : "#d9534f";
     }
 
-    // Hide/Show color picker based on selection
-    function updateColorPickerVisibility() {
-        customColor.style.display = colorSelect.value === 'custom' ? 'block' : 'none';
-    }
-
     // Load saved settings
     const settings = ['removeUnderlines', 'hoverUnderlines', 'colorSetting', 'customColor'];
     chrome.storage.sync.get(settings, function(data) {
@@ -34,7 +29,8 @@ document.addEventListener('DOMContentLoaded', function() {
         // Load color setting
         colorSelect.value = data.colorSetting || 'default';
         customColor.value = data.customColor || '#000000';
-        updateColorPickerVisibility();
+
+        customColor.style.display = colorSelect.value === 'custom' ? 'block' : 'none';
     });
 
     // Save color selection when changed
